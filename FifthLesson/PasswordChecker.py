@@ -18,3 +18,22 @@ random.shuffle(password_tobe_generated)
 
 generated_password = "".join(password_tobe_generated)
 print(generated_password)
+
+# password checker using lists
+
+password=""
+password_list=[]
+
+for char in range(0, nr_letters):
+    password_list.append(random.choice(letters))
+for char in range(0, nr_numbers):
+    password_list+=random.choice(numbers)
+for char in range(0, nr_symbols):
+    password_list.append(random.choice(symbols))
+
+random.shuffle(password_list)
+
+for char in password_list:
+    password+=char
+
+print(f"Your password is ${password}")
