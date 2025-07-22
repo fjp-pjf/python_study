@@ -13,6 +13,8 @@ random_required_letters = random.sample(letters, nr_letters)
 random_required_numbers = random.sample(numbers, nr_numbers)
 random_required_symbols = random.sample(symbols, nr_symbols)
 
-password_tobe_generated = random.shuffle(random_required_letters + random_required_numbers + random_required_symbols)
+password_tobe_generated = random_required_letters + random_required_numbers + random_required_symbols
+random.shuffle(password_tobe_generated)
 
 generated_password = "".join(password_tobe_generated)
+print(generated_password)
