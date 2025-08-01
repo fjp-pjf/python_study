@@ -15,18 +15,21 @@ print(guess)
 for letter in range(chosen_word_length):
     placeholder += "_"
 
-print(f"your length is: ", placeholder)
+print(f"guess the word: ", placeholder)
 
-def update_string():
-        letter_index = chosen_word.index(letter)
-        new_placeholder = placeholder[:letter_index] + letter + placeholder[letter_index + 1:]
-        print(new_placeholder)
+# we could use this logic (but this is a bit complicated)
+# def update_string():
+#         letter_index = chosen_word.index(letter)
+#         new_placeholder = placeholder[:letter_index] + letter + placeholder[letter_index + 1:]
+#         print(new_placeholder)
 
+display = ""
 for letter in chosen_word:
     if guess == letter:
         # if there is a correct letter, we should remove the _ and print the updated string
-        update_string()
+        # update_string()
+        display += letter
     else:
-        print("Wrong")
+        display += "_"
 
-
+print(display)
