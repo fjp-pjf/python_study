@@ -8,7 +8,7 @@ placeholder = ""
 
 print(chosen_word)
 
-guess = input("Please guess a letter ").lower()
+guess = input("Please guess a letter: ").lower()
 
 print(guess)
 
@@ -17,19 +17,15 @@ for letter in range(chosen_word_length):
 
 print(f"guess the word: ", placeholder)
 
-# we could use this logic (but this is a bit complicated)
-# def update_string():
-#         letter_index = chosen_word.index(letter)
-#         new_placeholder = placeholder[:letter_index] + letter + placeholder[letter_index + 1:]
-#         print(new_placeholder)
-
 display = ""
+character_to_find = "_"
+
 for letter in chosen_word:
-    if guess == letter:
-        # if there is a correct letter, we should remove the _ and print the updated string
-        # update_string()
-        display += letter
-    else:
-        display += "_"
+    print(character_to_find in display )
+    while character_to_find in display:
+        if guess == letter:
+            display += letter
+        else:
+            display += "_"
 
 print(display)
