@@ -1,31 +1,50 @@
 import random
 
-word_list = ["savvy", "flashy", "cherrylips", "yours", "ashore"]
+# List of words to guess from
+words = ["python", "javascript", "react", "developer", "hangman", "challenge"]
 
-chosen_word = random.choice(word_list)
-chosen_word_length = len(chosen_word)
-placeholder = ""
+# Choose a random word
+word = random.choice(words)
+guessed_letters = []
+attempts = 6  # Number of allowed wrong guesses
 
-print(chosen_word)
+print("Welcome to Hangman!")
+print("_ " * len(word))
 
-guess = input("Please guess a letter: ").lower()
+while attempts > 0:
+    guess = input("Guess a letter: ").lower()
 
-print(guess)
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter a single letter.")
+        continue
 
-for letter in range(chosen_word_length):
-    placeholder += "_"
+    if guess in guessed_letters:
+        print("You already guessed that letter.")
+        continue
 
-print(f"guess the word: ", placeholder)
+    guessed_letters.append(guess)
 
-display = ""
-character_to_find = "_"
+    if guess in word:
+        print("Good guess!")
+    else:
+        print("Wrong guess!")
+        attempts -= 1
 
-for letter in chosen_word:
-    print(character_to_find in display )
-    while character_to_find in display:
-        if guess == letter:
-            display += letter
+    # Display the current word with guessed letters
+    display_word = ""
+    for letter in word:
+        if letter in guessed_letters:
+            display_word += letter + " "
         else:
-            display += "_"
+            display_word += "_ "
+    print(display_word)
 
-print(display)
+    # Check if the player has won
+    if "_" not in display_word:
+        print("🎉 You guessed the word! You win!")
+        break
+
+    print(f"Attempts left: {attempts}")
+
+if attempts == 0:
+    print(f"😢 You ran out of attempts! The word was '{word}'.")
