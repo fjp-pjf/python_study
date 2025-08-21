@@ -5,3 +5,6 @@ def greet_with_name(name):
 
 
 greet_with_name("Vimal Sagar")
+
+#  argument is the value -> Vimal Sagar
+#  parameter is the key -> name
