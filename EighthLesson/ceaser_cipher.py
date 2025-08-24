@@ -14,7 +14,7 @@ def caesar(shift_direction, original_text, shift_amount):
         shifted_position %= len(alphabet)
         cipher_text += alphabet[shifted_position]
 
-    print(f"Here is the original text: {cipher_text}")
+    print(f"Here is the {shift_direction}d text: {cipher_text}")
 
 caesar(direction, text, shift)
 
