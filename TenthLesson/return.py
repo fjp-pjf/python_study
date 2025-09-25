@@ -9,3 +9,7 @@ def capitalize_name(f_name, l_name):
     return f"Your capitalized name is {capitalized_f_name} {capitalized_l_name}"
 
 print(capitalize_name(f_name= "femin", l_name= "justin"))
+
+# function to test if a given year is leap year or not
+def is_leap_year(year):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
