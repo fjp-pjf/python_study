@@ -17,32 +17,28 @@ operations = {
     "/": divide,
 }
 
-print("+")
-print("-")
-print("*")
-print("/")
-
-is_continuing = True
-last_result = 0
-result = 0
-
 def calculate():
-    chosen_operation = print(input("Pick an operation: "))
-    if is_continuing:
-        first_number = last_result
-    else:
-        first_number = print(input("What is the first number: "))
+    first_number = float(input("What is the first number: "))
+    should_continue = True
 
-    next_number = print(input("What is the next number: "))
+    while should_continue:
 
-    result = 0 + operations[chosen_operation](first_number, next_number)
-    print(f"Result is: {result}")
+        for symbol in operations:
+            print(symbol)
 
-    want_to_continue = input("Type y to continue calculating or type n to start a new calculation")
-    if want_to_continue == "y":
-        is_continuing == True
-    else:
-        is_continuing == False
+        chosen_operation = input("Pick an operation: ")
+        next_number = float(input("What is the next number: "))
+        answer = operations[chosen_operation](first_number, next_number)
 
-while is_continuing:
-    calculate()
+        print(f"{first_number} {chosen_operation} {next_number} = {answer}")
+
+        choice = input(f"Type y to continue calculating with {answer} or type n to start a new calculation: ")
+
+        if choice == "y":
+            first_number = answer
+        else:
+            should_continue = False
+            print("\n" * 20)
+            calculate()
+
+calculate()
