@@ -13,57 +13,85 @@ logo = r"""
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-user_cards = []
-comp_cards = []
 
-def pick_card():
-    users_random_card = random.choice(cards)
-    comp_random_card = random.choice(cards)
+def deal_card():
+    """Returns a random card from the deck"""
+    return random.choice(cards)
 
-    user_cards.append(users_random_card)
-    comp_cards.append(comp_random_card)
 
-    print(f"Your card is {user_cards}")
-    print(f"Computer picked {comp_cards}")
+def calculate_score(hand):
+    """Calculates the score, adjusting for Aces"""
+    total = sum(hand)
 
-def print_winner():
-    print(f"Your choices were {user_cards}") 
-    print(f"Computers choices were {comp_cards}")
-    comp_total = sum(comp_cards)
-    user_total = sum(user_cards)
+    # Blackjack (Ace + 10 on first draw)
+    if total == 21 and len(hand) == 2:
+        return 0  # special case for blackjack
 
-    user_diff = 21 - user_total
-    comp_diff = 21 - comp_total
-    if user_diff < comp_diff:
-        print("You won 👌!")
-    elif user_diff == comp_diff:
-        print("The game is a draw 🙈")
-    else: 
-        print("Computer wins 👌")
+    # Handle Ace: if total > 21 and Ace (11) present, count it as 1
+    while total > 21 and 11 in hand:
+        hand.remove(11)
+        hand.append(1)
+        total = sum(hand)
 
-def draw_again():
-    limit_exceeded = sum(user_cards) > 21
-    if not limit_exceeded:
-        user_choice = input("Type y to pick another card or n to stop the game ")
-        if user_choice == "y":
-            pick_card()
-            limit_exceeded = sum(user_cards) > 21
-            if limit_exceeded:
-                print_winner()
-            else:
-                draw_again()
-        else:
-            print("Good day mate")
+    return total
 
-question = input("Would you like to play a game of blackjack? Type y for yes and n for no! ")
 
-if question == "n":
-    "Good day to you mate!"
-else: 
-    draw_card = input("Type y to draw a card and n to finish the game ")
-    if draw_card == "y":
-        pick_card()
-        draw_again()
+def compare(user_score, comp_score):
+    """Compares the scores and returns the result string"""
+    if user_score == comp_score:
+        return "Draw 🙈"
+    elif comp_score == 0:
+        return "Computer has Blackjack 😱. You lose."
+    elif user_score == 0:
+        return "Blackjack! You win 👑"
+    elif user_score > 21:
+        return "You went over. You lose 😭"
+    elif comp_score > 21:
+        return "Computer went over. You win 😎"
+    elif user_score > comp_score:
+        return "You win 👌!"
     else:
-        print("Good day mate!")
+        return "Computer wins 👌"
 
+
+def play_game():
+    print(logo)
+
+    user_cards = []
+    comp_cards = []
+
+    # Initial deal (2 cards each)
+    for _ in range(2):
+        user_cards.append(deal_card())
+        comp_cards.append(deal_card())
+
+    game_over = False
+
+    while not game_over:
+        user_score = calculate_score(user_cards)
+        comp_score = calculate_score(comp_cards)
+
+        print(f"   Your cards: {user_cards}, current score: {user_score}")
+        print(f"   Computer's first card: {comp_cards[0]}")
+
+        if user_score == 0 or comp_score == 0 or user_score > 21:
+            game_over = True
+        else:
+            user_choice = input("Type 'y' to get another card, type 'n' to pass: ")
+            if user_choice == "y":
+                user_cards.append(deal_card())
+            else:
+                game_over = True
+
+    # Dealer (computer) keeps drawing until >= 17
+    while comp_score != 0 and comp_score < 17:
+        comp_cards.append(deal_card())
+        comp_score = calculate_score(comp_cards)
+
+    print(f"   Your final hand: {user_cards}, final score: {user_score}")
+    print(f"   Computer's final hand: {comp_cards}, final score: {comp_score}")
+    print(compare(user_score, comp_score))
+
+
+while input("Do you want to play a game of Blackjack? Type 'y' or 'n': ") == "y":
+    play_game()
